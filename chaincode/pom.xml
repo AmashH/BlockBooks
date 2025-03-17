@@ -18,44 +18,12 @@
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>central</id>
-            <name>Maven Central</name>
-            <url>https://repo.maven.apache.org/maven2</url>
-        </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
-
     <dependencies>
-        <!-- Hyperledger Fabric chaincode dependencies -->
+        <!-- Use the fabric shim directly, without contract API -->
         <dependency>
             <groupId>org.hyperledger.fabric-chaincode-java</groupId>
             <artifactId>fabric-chaincode-shim</artifactId>
-            <version>2.4.1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.github.everit-org.json-schema</groupId>
-                    <artifactId>org.everit.json.schema</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- Add explicit Fabric Contract API -->
-        <dependency>
-            <groupId>org.hyperledger.fabric-chaincode-java</groupId>
-            <artifactId>fabric-contract-api</artifactId>
-            <version>2.4.1</version>
-        </dependency>
-        
-        <!-- Add the JSON Schema dependency from jitpack -->
-        <dependency>
-            <groupId>com.github.everit-org</groupId>
-            <artifactId>json-schema</artifactId>
-            <version>1.12.1</version>
+            <version>1.4.6</version>
         </dependency>
         
         <!-- JSON serialization -->
@@ -82,7 +50,7 @@
                             <finalName>chaincode</finalName>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>org.hyperledger.fabric.contract.ContractRouter</mainClass>
+                                    <mainClass>org.ebook.EbookLicensingChaincode</mainClass>
                                 </transformer>
                             </transformers>
                             <filters>
