@@ -19,16 +19,16 @@
     </properties>
 
     <repositories>
-    <repository>
-        <id>central</id>
-        <name>Maven Central</name>
-        <url>https://repo.maven.apache.org/maven2</url>
-    </repository>
-    <repository>
-        <id>hyperledger</id>
-        <name>Hyperledger Nexus</name>
-        <url>https://nexus.hyperledger.org/content/repositories/releases</url>
-    </repository>
+        <repository>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <!-- Hyperledger Fabric chaincode dependencies -->
@@ -36,21 +36,27 @@
             <groupId>org.hyperledger.fabric-chaincode-java</groupId>
             <artifactId>fabric-chaincode-shim</artifactId>
             <version>2.4.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.github.everit-org.json-schema</groupId>
+                    <artifactId>org.everit.json.schema</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Add explicit Fabric Contract API -->
+        <dependency>
+            <groupId>org.hyperledger.fabric-chaincode-java</groupId>
+            <artifactId>fabric-contract-api</artifactId>
+            <version>2.4.1</version>
         </dependency>
         
-        <!-- Add explicit Fabric Contract API -->
-    <dependency>
-        <groupId>org.hyperledger.fabric-chaincode-java</groupId>
-        <artifactId>fabric-contract-api</artifactId>
-        <version>2.4.1</version>
-    </dependency>
-
-    <!-- Add the missing JSON Schema dependency -->
-    <dependency>
-        <groupId>com.github.everit-org.json-schema</groupId>
-        <artifactId>org.everit.json.schema</artifactId>
-        <version>1.12.1</version>
-    </dependency>
+        <!-- Add the JSON Schema dependency from jitpack -->
+        <dependency>
+            <groupId>com.github.everit-org</groupId>
+            <artifactId>json-schema</artifactId>
+            <version>1.12.1</version>
+        </dependency>
         
         <!-- JSON serialization -->
         <dependency>
