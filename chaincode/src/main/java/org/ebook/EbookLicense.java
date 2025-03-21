@@ -34,7 +34,6 @@ public final class EbookLicense {
         this.status = status;
     }
 
-    // Getters and setters
     public String getLicenseId() {
         return licenseId;
     }
