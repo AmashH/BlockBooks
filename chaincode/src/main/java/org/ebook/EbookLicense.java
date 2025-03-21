@@ -1,32 +1,21 @@
-
 package org.ebook;
 
-import com.owlike.genson.annotation.JsonProperty;
-import org.hyperledger.fabric.contract.annotation.DataType;
-import org.hyperledger.fabric.contract.annotation.Property;
+import com.google.gson.annotations.SerializedName; // Replace Genson import
 
-@DataType()
-public final class EbookLicense {
-    @Property()
-    private final String licenseId;
-
-    @Property()
-    private final String bookId;
-
-    @Property()
+public class EbookLicense {
+    @SerializedName("licenseId") // Use Gson’s annotation
+    private String licenseId;
+    @SerializedName("bookId")
+    private String bookId;
+    @SerializedName("ownerId")
     private String ownerId;
-
-    @Property()
-    private final String issueDate;
-
-    @Property()
+    @SerializedName("issueDate")
+    private String issueDate;
+    @SerializedName("status")
     private String status;
 
-    public EbookLicense(@JsonProperty("licenseId") final String licenseId,
-            @JsonProperty("bookId") final String bookId,
-            @JsonProperty("ownerId") final String ownerId,
-            @JsonProperty("issueDate") final String issueDate,
-            @JsonProperty("status") final String status) {
+    // Constructor
+    public EbookLicense(String licenseId, String bookId, String ownerId, String issueDate, String status) {
         this.licenseId = licenseId;
         this.bookId = bookId;
         this.ownerId = ownerId;
@@ -34,12 +23,21 @@ public final class EbookLicense {
         this.status = status;
     }
 
+    // Getters and setters
     public String getLicenseId() {
         return licenseId;
     }
 
+    public void setLicenseId(String licenseId) {
+        this.licenseId = licenseId;
+    }
+
     public String getBookId() {
         return bookId;
+    }
+
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
     }
 
     public String getOwnerId() {
@@ -52,6 +50,10 @@ public final class EbookLicense {
 
     public String getIssueDate() {
         return issueDate;
+    }
+
+    public void setIssueDate(String issueDate) {
+        this.issueDate = issueDate;
     }
 
     public String getStatus() {
