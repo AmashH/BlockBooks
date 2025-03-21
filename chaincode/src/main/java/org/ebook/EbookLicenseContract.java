@@ -7,31 +7,34 @@ import org.hyperledger.fabric.contract.annotation.Default;
 import org.hyperledger.fabric.contract.annotation.Transaction;
 import org.hyperledger.fabric.shim.ChaincodeException;
 import org.hyperledger.fabric.shim.ChaincodeStub;
-import com.owlike.genson.Genson;
+import com.google.gson.Gson;
 
 @Contract(name = "EbookLicenseContract")
 @Default
 public final class EbookLicenseContract implements ContractInterface {
-
-    private final Genson genson = new Genson();
+    private final Gson gson = new Gson();
 
     @Transaction
     public EbookLicense createLicense(final Context ctx, final String licenseId, final String bookId,
             final String ownerId, final String issueDate) {
-        ChaincodeStub stub = ctx.getStub();
+        if (licenseId == null || licenseId.trim().isEmpty())
+            throw new ChaincodeException("licenseId cannot be empty");
+        if (bookId == null || bookId.trim().isEmpty())
+            throw new ChaincodeException("bookId cannot be empty");
+        if (ownerId == null || ownerId.trim().isEmpty())
+            throw new ChaincodeException("ownerId cannot be empty");
+        if (issueDate == null || issueDate.trim().isEmpty())
+            throw new ChaincodeException("issueDate cannot be empty");
 
-        // Check if license already exists
+        ChaincodeStub stub = ctx.getStub();
         String licenseState = stub.getStringState(licenseId);
         if (!licenseState.isEmpty()) {
             String errorMessage = String.format("License %s already exists", licenseId);
             throw new ChaincodeException(errorMessage);
         }
-
-        // Create license
         EbookLicense license = new EbookLicense(licenseId, bookId, ownerId, issueDate, "ACTIVE");
-        licenseState = genson.serialize(license);
+        licenseState = gson.toJson(license);
         stub.putStringState(licenseId, licenseState);
-
         return license;
     }
 
@@ -39,30 +42,25 @@ public final class EbookLicenseContract implements ContractInterface {
     public EbookLicense readLicense(final Context ctx, final String licenseId) {
         ChaincodeStub stub = ctx.getStub();
         String licenseState = stub.getStringState(licenseId);
-
         if (licenseState.isEmpty()) {
             String errorMessage = String.format("License %s does not exist", licenseId);
             throw new ChaincodeException(errorMessage);
         }
-
-        return genson.deserialize(licenseState, EbookLicense.class);
+        return gson.fromJson(licenseState, EbookLicense.class);
     }
 
     @Transaction
     public EbookLicense transferLicense(final Context ctx, final String licenseId, final String newOwnerId) {
         ChaincodeStub stub = ctx.getStub();
         String licenseState = stub.getStringState(licenseId);
-
         if (licenseState.isEmpty()) {
             String errorMessage = String.format("License %s does not exist", licenseId);
             throw new ChaincodeException(errorMessage);
         }
-
-        EbookLicense license = genson.deserialize(licenseState, EbookLicense.class);
+        EbookLicense license = gson.fromJson(licenseState, EbookLicense.class);
         license.setOwnerId(newOwnerId);
-        licenseState = genson.serialize(license);
+        licenseState = gson.toJson(license);
         stub.putStringState(licenseId, licenseState);
-
         return license;
     }
 }
