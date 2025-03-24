@@ -1,16 +1,29 @@
 package org.ebook;
 
+import org.hyperledger.fabric.contract.annotation.DataType; //add datatype to ensure custom return types generate metadata for serialization
+import org.hyperledger.fabric.contract.annotation.Property;
 import com.google.gson.annotations.SerializedName; // Replace Genson import
 
+@DataType()
 public class EbookLicense {
+
+    @Property()
     @SerializedName("licenseId") // Use Gson’s annotation
     private String licenseId;
+
+    @Property()
     @SerializedName("bookId")
     private String bookId;
+
+    @Property()
     @SerializedName("ownerId")
     private String ownerId;
+
+    @Property()
     @SerializedName("issueDate")
     private String issueDate;
+
+    @Property()
     @SerializedName("status")
     private String status;
 
