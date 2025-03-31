@@ -3,18 +3,21 @@ package org.ebook;
 import org.hyperledger.fabric.gateway.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.Files;
 import java.util.UUID;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.security.PrivateKey;
+import java.security.cert.X509Certificate;
 
 public class FabricClient {
 
-    private final String channelName = "mychannel";
-    private final String contractName = "ebooklicensing";
+    private final String channelName = "fyptest";
+    private final String contractName = "EbookLicenseContract";
     private Gateway gateway;
 
     // For a quick demo, let's add a mock mode flag
-    private boolean mockMode = true; // Set to true to avoid real blockchain connection
+    private boolean mockMode = false; // Set to true to avoid real blockchain connection
 
     public FabricClient() {
         if (!mockMode) {
@@ -30,12 +33,30 @@ public class FabricClient {
     }
 
     private void initializeGateway() throws Exception {
-        // Simplified connection code
+        // Path to connection profile
         Path networkConfigPath = Paths
-                .get("../test-network/organizations/peerOrganizations/org1.example.com/connection-org1.yaml");
+                .get("/home/amash/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.yaml");
+
+        // Path to certificate
+        Path certPath = Paths
+                .get("/home/amash/test-network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/User1@org1.example.com-cert.pem");
+
+        // Path to private key directory
+        Path keyDir = Paths
+                .get("/home/amash/test-network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore");
+
+        // Find the private key file (there's usually only one file in this directory)
+        Path keyPath = Files.list(keyDir).findFirst()
+                .orElseThrow(() -> new RuntimeException("No private key found in " + keyDir));
+
+        // Read the certificate and private key
+        X509Certificate certificate = Identities.readX509Certificate(Files.newBufferedReader(certPath));
+        PrivateKey privateKey = Identities.readPrivateKey(Files.newBufferedReader(keyPath));
+
+        // Create the gateway builder
         Gateway.Builder builder = Gateway.createBuilder()
-                .identity(Identities.newX509Identity("Org1MSP", Identities.readX509Certificate("path/to/cert"),
-                        Signers.newPrivateKeySigner(Identities.readPrivateKey("path/to/key"))))
+                .identity(Identities.newX509Identity("Org1MSP", certificate,
+                        Signers.newPrivateKeySigner(privateKey)))
                 .networkConfig(networkConfigPath);
 
         this.gateway = builder.connect();
