@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Book Shop</title>
+</head>
+
+<body>
+    <h1>Book Shop</h1>
+    {% if messages %}
+    {% for message in messages %}
+    <p{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</p>
+        {% endfor %}
+        {% endif %}
+        <h2>Available Books</h2>
+        <ul>
+            {% for book in books %}
+            <li>
+                {{ book.title }} - ${{ book.price }}
+                <a href="{% url 'buy_book' book.id %}">Buy</a>
+            </li>
+            {% endfor %}
+        </ul>
+        <p><a href="{% url 'profile' %}">View Profile</a></p>
+</body>
+
+</html>
