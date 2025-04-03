@@ -47,7 +47,7 @@ public final class EbookLicenseContract implements ContractInterface {
             throw new ChaincodeException(errorMessage);
         }
         return gson.fromJson(licenseState, EbookLicense.class);
-    }
+    } 
 
     @Transaction
     public EbookLicense transferLicense(final Context ctx, final String licenseId, final String newOwnerId) {
