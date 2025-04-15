@@ -57,4 +57,26 @@ public class FabricRestController {
 
         return response;
     }
+
+    @PutMapping("/licenses/{licenseId}/transfer")
+    public Map<String, Object> transferLicense(@PathVariable String licenseId,
+            @RequestBody Map<String, String> request) {
+        String newOwnerId = request.get("new_owner_id");
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            // call FabricClient
+            String result = fabricClient.transferLicense(licenseId, newOwnerId);
+            response.put("success", true);
+            response.put("license_id", licenseId);
+            response.put("new_owner_id", newOwnerId);
+            response.put("timestamp", System.currentTimeMillis());
+
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("error, ", e.getMessage());
+        }
+        return response;
+
+    }
 }

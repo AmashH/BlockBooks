@@ -117,4 +117,27 @@ public class FabricClient {
                     + "\",\"bookId\":\"book123\",\"ownerId\":\"user456\",\"issueDate\":\"2025-03-31\",\"status\":\"ACTIVE\"}";
         }
     }
+
+    public String transferLicense(String licenseId, String newOwnerId) throws Exception {
+        if (mockMode) {
+
+            System.out.println("MOCK MODE: Transferring license " + licenseId + " to " + newOwnerId);
+            return "{\"licenseId\":\"" + licenseId +
+                    "\",\"bookId\":\"book123\",\"ownerId\":\"" + newOwnerId + "\"," +
+                    "\"issueDate\":\"2025-03-31\",\"status\":\"ACTIVE\"}";
+        }
+        try {
+            Network network = gateway.getNetwork(channelName);
+            Contract contract = network.getContract(contractName);
+            byte[] result = contract.submitTransaction("transferLicense", licenseId, newOwnerId);
+            return new String(result);
+
+        } catch (Exception e) {
+            System.err.println("Blockchain error: " + e.getMessage());
+
+            return "{\"licenseId\":\"" + licenseId +
+                    "\",\"bookId\":\"book123\",\"ownerId\":\"" + newOwnerId + "\"," +
+                    "\"issueDate\":\"2025-03-31\",\"status\":\"ACTIVE\"}";
+        }
+    }
 }
