@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Licenses</title>
+</head>
+<body>
+    <h1>My Licenses</h1>
+    <ul>
+        {% for license in licenses %}
+            <li>
+                {{ license.book_title }} — License ID: {{ license.license_id }}
+            </li>
+        {% empty %}
+            <li>You have no licenses.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bookstore</title>
+</head>
+<body>
+    <h1>Available Books</h1>
+    <ul>
+        {% for book in books %}
+        <li style="margin-bottom: 20px;">
+            <h3>{{ book.title }} by {{ book.author }}</h3>
+            <p>{{ book.description }}</p>
+            {% if book.cover_url %}
+                <img src="{{ book.cover_url }}" alt="Cover image" width="100">
+            {% endif %}
+            <!-- Buy button placeholder -->
+            <form method="POST" action="#">
+                {% csrf_token %}
+                <button type="submit" disabled>Buy (Coming soon)</button>
+            </form>
+        </li>
+        {% empty %}
+        <li>No books available yet.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
