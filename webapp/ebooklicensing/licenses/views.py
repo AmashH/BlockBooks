@@ -8,6 +8,6 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def my_licenses(request):
     licenses = FakeLicense.objects.filter(owner=request.user)
-    return render(request, 'licenses/my_licenses.html', {'licenses': licenses})
+    return render(request, 'my_licenses.html', {'licenses': licenses})
 
 
