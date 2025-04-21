@@ -18,11 +18,14 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path, include 
 from users.views import profile_view
+from django.shortcuts import redirect
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('bookstore.urls')),
+    path('', lambda request: redirect('login'), name='home'),
+    path('books', include('bookstore.urls')),
     path('licenses/', include('licenses.urls')),
     path('users/', include('users.urls')),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
