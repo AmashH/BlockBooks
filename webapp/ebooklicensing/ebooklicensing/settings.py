@@ -54,10 +54,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'ebooklicensing.urls'
 
-#login redirects below
+
 LOGIN_REDIRECT_URL = '/profile/'    
 LOGOUT_REDIRECT_URL = '/login/'    
-#login redirects above
+
 
 TEMPLATES = [
     {
