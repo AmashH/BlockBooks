@@ -1,9 +1,14 @@
 {% extends "base.html" %}
 
+{% block content %}
+  <h1>Welcome, {{ user.username }}!</h1>
 
-<h1>Welcome, {{ user.username }}!</h1>
-
-<ul>
-  <li><a href="/licenses/">My Licenses</a></li>
-  <li><a href="/logout/">Logout</a></li>
-</ul>
+  <h2>My Licenses</h2>
+  <ul>
+    {% for license in licenses %}
+      <li>{{ license.book_title }} — License ID: {{ license.license_id }}</li>
+    {% empty %}
+      <li>You have no licenses.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

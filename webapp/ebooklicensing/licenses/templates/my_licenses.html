@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Licenses</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content%}
     <h1>My Licenses</h1>
     <ul>
         {% for license in licenses %}
@@ -14,5 +11,5 @@
             <li>You have no licenses.</li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{%endblock%}
+
