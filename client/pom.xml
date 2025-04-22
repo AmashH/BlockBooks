@@ -21,20 +21,7 @@
         <java.version>11</java.version>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.grpc</groupId>
-                <artifactId>grpc-protobuf</artifactId>
-                <version>1.60.1</version>
-            </dependency>
-            <dependency>
-                <groupId>io.grpc</groupId>
-                <artifactId>grpc-netty-shaded</artifactId>
-                <version>1.60.1</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+
 
     <dependencies>
         <dependency>
@@ -42,18 +29,26 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.21.12</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.hyperledger.fabric</groupId>
             <artifactId>fabric-gateway</artifactId>
             <version>1.7.0</version>
         </dependency>
-        <!-- Explicitly include gRPC dependencies -->
+
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-protobuf</artifactId>
+            <version>1.60.1</version>
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-netty-shaded</artifactId>
+            <version>1.60.1</version>
         </dependency>
     </dependencies>
 

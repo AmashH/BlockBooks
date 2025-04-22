@@ -1,29 +1,15 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
-  <h1>Transfer a License</h1>
-
-  {% if message %}
-    <p><strong>{{ message }}</strong></p>
-  {% endif %}
-
+  <h2>Transfer a License</h2>
   <form method="post">
     {% csrf_token %}
-    
-    <label for="license_id">Choose a license:</label>
-    <select name="license_id" id="license_id" required>
-      {% for license in licenses %}
-        <option value="{{ license.license_id }}">
-          {{ license.book_title }} (License ID: {{ license.license_id }})
-        </option>
-      {% endfor %}
-    </select>
-    <br><br>
+    <label for="license_id">License ID:</label><br>
+    <input type="text" name="license_id" required><br><br>
 
-    <label for="new_owner">Transfer to (username):</label>
-    <input type="text" name="new_owner" id="new_owner" required>
-    <br><br>
+    <label for="new_owner_id">New Owner Username:</label><br>
+    <input type="text" name="new_owner_id" required><br><br>
 
-    <button type="submit">Transfer License</button>
+    <input type="submit" value="Transfer">
   </form>
 {% endblock %}

@@ -44,10 +44,10 @@ public class FabricClient {
     private void initializeGateway() throws Exception {
         // Path to certificate
         Path certPath = Paths.get(
-                "/home/amash/test-network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/User1@org1.example.com-cert.pem");
+                "/home/amash/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/User1@org1.example.com-cert.pem");
         // Path to private key directory
         Path keyDir = Paths.get(
-                "/home/amash/test-network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore");
+                "/home/amash/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore");
         // Find the private key file (there's usually only one file in this directory)
         Path keyPath = Files.list(keyDir).findFirst()
                 .orElseThrow(() -> new RuntimeException("No private key found in " + keyDir));
