@@ -5,7 +5,11 @@
     <ul>
         {% for license in licenses %}
             <li>
-                {{ license.book_title }} — License ID: {{ license.license_id }}
+                <strong>License ID:</strong> {{ license.licenseId }} |
+                <strong>Book ID:</strong> {{ license.bookId }} |
+                <strong>Owner ID:</strong> {{ license.ownerId }} |
+                <strong> Purchase date:</strong> {{license.issueDate}} |
+                <strong> License Status</strong> {{license.status}}
             </li>
         {% empty %}
             <li>You have no licenses.</li>
