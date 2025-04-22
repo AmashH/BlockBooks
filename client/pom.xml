@@ -20,9 +20,7 @@
     <properties>
         <java.version>11</java.version>
     </properties>
-
-
-
+    
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -31,7 +29,8 @@
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
-            <version>3.21.12</version>
+            <version>4.29.2</version>
+            
         </dependency>
 
         <dependency>
@@ -42,13 +41,15 @@
 
         <dependency>
             <groupId>io.grpc</groupId>
-            <artifactId>grpc-protobuf</artifactId>
-            <version>1.60.1</version>
+            <artifactId>grpc-api</artifactId>
+            <version>1.69.0</version>
+           
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-netty-shaded</artifactId>
-            <version>1.60.1</version>
+            <version>1.69.0</version>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 
