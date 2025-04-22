@@ -24,16 +24,17 @@ def my_licenses(request):
 
 @login_required
 def transfer_license_view(request):
-    licenses = FakeLicense.objects.filter(owner=request.user)
-    message = None
-    
-    if request.method == 'POST':
-        license_id = request.POST.get('license_id')
-        new_owner = request.POST.get('new_owner')
+    if request.method == "POST":
+        license_id = request.POST.get("license_id")
+        new_owner_id= request.POST.get("new_owner_id")  #on the transfer license form, get the inputted values and store
         
-        # Placeholder logic for now
-        message = f"Simulated transfer of license {license_id} to user {new_owner}."
+        res = requests.put( #sends http put request with dynamically inserted license id
+            f"http://localhost:8080/api/licenses/{license_id}/transfer",
+            json={"new_owner_id": new_owner_id})  #sends json payload to spring boot API
+    
+  
+        
+        if res.ok and res.json().get("success"): #if api call successful and parses json returned from api 
+            return redirect("licensing") #redirect to license app if previous is successful 
 
-    return render(request, 'transfer_licenses.html', {
-        'licenses': licenses,
-        'message': message})
+    return render(request, "transfer_licenses.html") #else if not a post request, return to transfer page 
