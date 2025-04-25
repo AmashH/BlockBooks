@@ -14,9 +14,9 @@
                 <img src="{{ book.cover_url }}" alt="Cover image" width="100">
             {% endif %}
             <!-- Buy button placeholder -->
-            <form method="POST" action="#">
+            <form method="POST" action="{% url 'issue_license' book.book_id %}">
                 {% csrf_token %}
-                <button type="submit" disabled>Buy (Coming soon)</button>
+                <button type="submit">Buy</button>
             </form>
         </li>
         {% empty %}
