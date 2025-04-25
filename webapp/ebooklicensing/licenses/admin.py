@@ -1,5 +1,5 @@
-from django.contrib import admin
-from .models import FakeLicense
+#from django.contrib import admin
+#from .models import FakeLicense
 
 #admin.site.register(FakeLicense)
 
