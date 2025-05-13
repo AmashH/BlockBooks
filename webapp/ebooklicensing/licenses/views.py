@@ -13,7 +13,7 @@ import json
 def my_licenses(request):
     user_id=request.user.username # .username is used as ownerid in chaincode
     
-    known_license_ids= ['LIC004', 'LIC002'] #licenses made with manual invokes on test network to start
+    known_license_ids= ['LIC001', 'LIC002'] #licenses made with manual invokes on test network to start
     
     licenses = [] 
     for license_id in known_license_ids:

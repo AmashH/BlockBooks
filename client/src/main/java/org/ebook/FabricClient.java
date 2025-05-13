@@ -10,6 +10,8 @@ import org.hyperledger.fabric.client.identity.Signers;
 import org.hyperledger.fabric.client.identity.X509Identity;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.netty.GrpcSslContexts;
+import io.grpc.netty.NettyChannelBuilder;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -60,10 +62,16 @@ public class FabricClient {
         Identity identity = new X509Identity("Org1MSP", certificate);
         Signer signer = Signers.newPrivateKeySigner(privateKey);
 
+        // load tls certs for grpc
+        Path tlsCertPath = Paths.get(
+                "/home/amash/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt");
+
         // Create a gRPC channel to the Fabric Gateway (assumes the gateway is running
         // on localhost:7051)
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 7051)
-                .usePlaintext() // Use plaintext for simplicity; in production, use TLS
+        ManagedChannel channel = NettyChannelBuilder.forAddress("localhost", 7051)
+                .sslContext(GrpcSslContexts.forClient().trustManager(tlsCertPath.toFile()).build()) // replaced
+                                                                                                    // plaintext //
+                                                                                                    // plaintext
                 .build();
 
         // Connect to the gateway (assumes the gateway is running on localhost:7051)
@@ -93,6 +101,7 @@ public class FabricClient {
         } catch (Exception e) {
             System.err.println("Blockchain error: " + e.getMessage());
             // For demo, don't let errors stop the flow
+            e.printStackTrace(); // full error message
             return licenseId;
         }
     }
