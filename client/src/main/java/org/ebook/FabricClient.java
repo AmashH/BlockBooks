@@ -80,6 +80,8 @@ public class FabricClient {
                 .signer(signer)
                 .connection(channel); // Update with your gateway endpoint
         this.gateway = builder.connect();
+        System.out.println(" Gateway Successfully Connected");
+
     }
 
     public String issueLicense(String bookId, String userId) throws Exception {
