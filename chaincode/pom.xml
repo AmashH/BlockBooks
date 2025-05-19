@@ -32,6 +32,35 @@
             <artifactId>gson</artifactId>
             <version>2.10.1</version>
         </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-api</artifactId>
+            <version>1.69.0</version>
+           
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-netty-shaded</artifactId>
+            <version>1.69.0</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-netty</artifactId>
+            <version>1.69.0</version>
+            
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-stub</artifactId>
+            <version>1.69.0</version>  
+        </dependency>
+
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-tcnative-boringssl-static</artifactId>
+            <version>2.0.61.Final</version>
+        </dependency>
     </dependencies>
 
     <repositories>
@@ -102,6 +131,47 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- grpc local server plugin files -->
+            <plugin>
+                <groupId>org.xolstice.maven.plugins</groupId>
+                <artifactId>protobuf-maven-plugin</artifactId>
+                <version>0.6.1</version>
+                <configuration>
+                    <protocArtifact>com.google.protobuf:protoc:3.6.1</protocArtifact>
+                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:1.15.1</pluginArtifact>
+                    <protoSourceRoot>${project.basedir}/src/main/proto</protoSourceRoot>
+                    <outputDirectory>${project.build.directory}/generated-sources/protobuf</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-proto</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <pluginId>grpc-java</pluginId>
+                            <outputDirectory>${project.build.directory}/generated-sources/protobuf/java</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-grpc</id>
+                        <goals>
+                            <goal>compile-custom</goal>
+                        </goals>
+                        <configuration>
+                            <pluginId>grpc-java</pluginId>
+                            <outputDirectory>${project.build.directory}/generated-sources/protobuf/grpc-java</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+
+        
+
         </plugins>
+            <sourceDirectory>src/main/generated</sourceDirectory>
+
     </build>
 </project>

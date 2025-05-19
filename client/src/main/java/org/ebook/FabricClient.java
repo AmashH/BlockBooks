@@ -1,3 +1,5 @@
+// src/main/java/org/ebook/FabricClient.java
+
 package org.ebook;
 
 import org.hyperledger.fabric.client.Gateway;
