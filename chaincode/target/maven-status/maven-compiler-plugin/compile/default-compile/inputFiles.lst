@@ -1,1 +1,5 @@
+/home/amash/fyp/BlockBooks/chaincode/src/main/java/org/ebook/GRPCServer.java
 /home/amash/fyp/BlockBooks/chaincode/target/generated-sources/protobuf/java/org/ebook/LicenseProto.java
+/home/amash/fyp/BlockBooks/chaincode/src/main/java/org/ebook/EbookLicense.java
+/home/amash/fyp/BlockBooks/chaincode/target/generated-sources/protobuf/grpc-java/org/ebook/LicenseServiceGrpc.java
+/home/amash/fyp/BlockBooks/chaincode/src/main/java/org/ebook/EbookLicenseContract.java
