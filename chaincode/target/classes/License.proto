@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package org.ebook;
+
+option java_package = "org.ebook";
+option java_outer_classname = "LicenseProto";
+
+// This defines the service and its methods
+service LicenseService {
+    rpc CreateLicense (CreateLicenseRequest) returns (CreateLicenseResponse);
+    rpc ReadLicense (ReadLicenseRequest) returns (ReadLicenseResponse);
+    rpc TransferLicense (TransferLicenseRequest) returns (TransferLicenseResponse);
+}
+
+// ================== REQUESTS ==================
+
+message CreateLicenseRequest {
+    string licenseId = 1;
+    string bookId = 2;
+    string ownerId = 3;
+    string issueDate = 4;
+}
+
+message ReadLicenseRequest {
+    string licenseId = 1;
+}
+
+message TransferLicenseRequest {
+    string licenseId = 1;
+    string newOwnerId = 2;
+}
+
+// ================== RESPONSES ==================
+
+message CreateLicenseResponse {
+    string message = 1;
+    string licenseId = 2;
+}
+
+message ReadLicenseResponse {
+    string licenseId = 1;
+    string bookId = 2;
+    string ownerId = 3;
+    string issueDate = 4;
+    string status = 5;
+}
+
+message TransferLicenseResponse {
+    string message = 1;
+    string licenseId = 2;
+    string newOwnerId = 3;
+}

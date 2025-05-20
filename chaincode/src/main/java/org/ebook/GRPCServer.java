@@ -9,10 +9,18 @@ import org.hyperledger.fabric.shim.ChaincodeStub;
 import com.google.gson.Gson;
 import java.io.File;
 
+import org.ebook.LicenseProto.CreateLicenseRequest;
+import org.ebook.LicenseProto.CreateLicenseResponse;
+import org.ebook.LicenseProto.ReadLicenseRequest;
+import org.ebook.LicenseProto.ReadLicenseResponse;
+import org.ebook.LicenseProto.TransferLicenseRequest;
+import org.ebook.LicenseProto.TransferLicenseResponse;
+import org.ebook.LicenseProto.LicenseServiceGrpc;
+
 public class GRPCServer {
     private final static int PORT = 9999;
     private Server server;
-    private final Gson gson = new Gson();
+    private static final Gson gson = new Gson();
     private final EbookLicenseContract contract = new EbookLicenseContract();
 
     public void start() throws Exception {
@@ -23,7 +31,7 @@ public class GRPCServer {
                         new File(
                                 "/home/amash/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/server.key"))
                         .build())
-                .addService(new LicenseService())
+                .addService(new GRPCServer.LicenseService())
                 .build()
                 .start();
 
@@ -39,9 +47,9 @@ public class GRPCServer {
     static class LicenseService extends LicenseServiceGrpc.LicenseServiceImplBase {
 
         @Override
-        public void createLicense(CreateLicenseRequest request,
-                StreamObserver<CreateLicenseResponse> responseObserver) {
-            Context ctx = new Context(new ChaincodeStub());
+        public void createLicense(License.CreateLicenseRequest request,
+                StreamObserver<License.CreateLicenseResponse> responseObserver) {
+            Context ctx = new Context(new ChaincodeStubImpl());
             try {
                 EbookLicense license = new EbookLicense(
                         request.getLicenseId(),
@@ -53,7 +61,7 @@ public class GRPCServer {
                 String licenseState = new Gson().toJson(license);
                 ctx.getStub().putStringState(request.getLicenseId(), licenseState);
 
-                CreateLicenseResponse response = CreateLicenseResponse.newBuilder()
+                License.CreateLicenseResponse response = License.CreateLicenseResponse.newBuilder()
                         .setMessage("License created successfully")
                         .setLicenseId(request.getLicenseId())
                         .build();
@@ -66,8 +74,9 @@ public class GRPCServer {
         }
 
         @Override
-        public void readLicense(ReadLicenseRequest request, StreamObserver<ReadLicenseResponse> responseObserver) {
-            Context ctx = new Context(new ChaincodeStub());
+        public void readLicense(License.ReadLicenseRequest request,
+                StreamObserver<License.ReadLicenseResponse> responseObserver) {
+            Context ctx = new Context(new ChaincodeStubImpl());
             try {
                 String licenseState = ctx.getStub().getStringState(request.getLicenseId());
                 if (licenseState.isEmpty()) {
@@ -75,7 +84,7 @@ public class GRPCServer {
                     return;
                 }
                 EbookLicense license = gson.fromJson(licenseState, EbookLicense.class);
-                ReadLicenseResponse response = ReadLicenseResponse.newBuilder()
+                License.ReadLicenseResponse response = License.ReadLicenseResponse.newBuilder()
                         .setLicenseId(license.getLicenseId())
                         .setBookId(license.getBookId())
                         .setOwnerId(license.getOwnerId())
@@ -91,9 +100,9 @@ public class GRPCServer {
         }
 
         @Override
-        public void transferLicense(TransferLicenseRequest request,
-                StreamObserver<TransferLicenseResponse> responseObserver) {
-            Context ctx = new Context(new ChaincodeStub());
+        public void transferLicense(License.TransferLicenseRequest request,
+                StreamObserver<License.TransferLicenseResponse> responseObserver) {
+            Context ctx = new Context(new ChaincodeStubImpl());
             try {
                 String licenseState = ctx.getStub().getStringState(request.getLicenseId());
                 if (licenseState.isEmpty()) {
@@ -104,7 +113,7 @@ public class GRPCServer {
                 license.setOwnerId(request.getNewOwnerId());
                 ctx.getStub().putStringState(request.getLicenseId(), gson.toJson(license));
 
-                TransferLicenseResponse response = TransferLicenseResponse.newBuilder()
+                License.TransferLicenseResponse response = License.TransferLicenseResponse.newBuilder()
                         .setMessage("License transferred successfully")
                         .setLicenseId(request.getLicenseId())
                         .setNewOwnerId(request.getNewOwnerId())
